@@ -64,4 +64,13 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def find
+    @movie = Movie.find_by_id params[:id]
+    @movies = Movie.find_all_by_director @movie.director
+    if @movies.size <= 1
+      flash[:notice] = "'#{@movie.title}' has no director info"
+      flash.keep
+      redirect_to movies_path
+    end
+  end
 end
